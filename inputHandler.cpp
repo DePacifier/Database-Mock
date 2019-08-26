@@ -23,9 +23,12 @@ int main()
     Database *workingDatabase;
 
     ifstream ifs("databasedata.dbd", ios::binary);
-    boost::archive::text_iarchive ia(ifs);
-    ia >> dbApp;
-    ifs.close();
+    if (ifs)
+    {
+        boost::archive::text_iarchive ia(ifs);
+        ia >> dbApp;
+        ifs.close();
+    }
 
     while (true)
     {
@@ -43,6 +46,28 @@ int main()
             try
             {
                 workingDatabase = &dbApp.getDatabase(commandWords[1]);
+            }
+            catch (exception e)
+            {
+                cout << e.what() << endl;
+            }
+            catch (char const *msg)
+            {
+                cout << msg << endl;
+            }
+        }
+        else if (command.substr(0, 16) == "create-database" && commandWords.size() == 3)
+        {
+            Database newdb(commandWords[2]);
+            dbApp.addDatabase(newdb);
+            workingDatabase = &newdb;
+        }
+        else if (command.substr(0, 16) == "delete-database" && commandWords.size() == 3)
+        {
+            try
+            {
+                dbApp.removeDatabase(commandWords[2]);
+                workingDatabase = nullptr;
             }
             catch (exception e)
             {
@@ -145,7 +170,9 @@ int main()
                 boost::archive::text_oarchive oa(ofs);
                 oa << workingDatabase;
                 ofs.close();
-            }else if(command.compare("exit") == 0){
+            }
+            else if (command.compare("exit") == 0)
+            {
                 break;
             }
             else

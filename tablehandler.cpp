@@ -1,5 +1,7 @@
 #include <iostream>
 #include <boost/serialization/access.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
 #include <vector>
 
 using namespace std;
@@ -269,24 +271,24 @@ public:
     
 };
 
-int main()
-{
-    Database db("mydb");
-    Table tables("student", {"Name", "Age"}, {"string", "int"});
-    Table tableh("hippy", {"Name", "Age"}, {"string", "int"});
-    Table tableb("boss", {"Name", "Age"}, {"string", "int"});
+// int main()
+// {
+//     Database db("mydb");
+//     Table tables("student", {"Name", "Age"}, {"string", "int"});
+//     Table tableh("hippy", {"Name", "Age"}, {"string", "int"});
+//     Table tableb("boss", {"Name", "Age"}, {"string", "int"});
 
-    db.addTable(tables);
-    db.addTable(tableh);
-    db.addTable(tableb);
+//     db.addTable(tables);
+//     db.addTable(tableh);
+//     db.addTable(tableb);
 
-    cout << db.databaseName << endl;
-    db.showTables();
+//     cout << db.databaseName << endl;
+//     db.showTables();
 
-    //db.getTable("student");
-    //db.getTable("me");
+//     //db.getTable("student");
+//     //db.getTable("me");
 
-    db.removeTable("hippy");
-    cout << "remove table student" << endl;
-    db.showTables();
-}
+//     db.removeTable("hippy");
+//     cout << "remove table student" << endl;
+//     db.showTables();
+// }
